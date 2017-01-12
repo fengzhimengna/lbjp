@@ -4,12 +4,17 @@
         <text class="date">{{date}}</text>
         <text class="text-title">{{title}}</text>
         <text class="text-author">作者／{{author}}</text>
+        <image style="height: 150px;margin-top: 5px; margin-bottom: 5px; margin-right: 5px;" src="{{url}}"></image>
         <text class="text-content-short">{{content}}</text>
     </div>
 
 </template>
 
 <style>
+    .slider-item {
+        height: 360px;
+        width: 750px;
+    }
     .item-text {
         margin-top: 10px;
         margin-bottom: 10px;
@@ -55,6 +60,6 @@
     require('weex-components');
     module.exports = {
         methods: {},
-        data: {date: '', title: '', author: '', content: ''}
+        data: {date: '', title: '', author: '', content: '', url: ''}
     }
 </script>

@@ -32,6 +32,15 @@ function getData(url, callback) {
         callback(retdata);
     });
 }
+function getPostData(url, callback) {
+    stream.sendHttp({
+        method: 'POST',
+        url: url
+    }, function (ret) {
+        var retdata = JSON.parse(ret);
+        callback(retdata);
+    });
+}
 exports.getHome = function (dateStr, callback) {
     getData(apiURL.baseurl + apiURL.homePage + dateStr, callback);
 };
@@ -40,6 +49,14 @@ exports.getReadingCarousel = function (callback) {
 };
 exports.getReadingIndex = function (index, callback) {
     getData(apiURL.baseurl + apiURL.readingIndex + index, callback);
+};
+/**
+ * 获取图片列表
+ * @param index
+ * @param callback
+ */
+exports.getImageList = function (index, callback) {
+    getPostData('http://192.168.20.123:8081/common/image/list.html', callback);
 };
 exports.getEssay = function (id, callback) {
     getData(apiURL.baseurl + apiURL.essay + id, callback);

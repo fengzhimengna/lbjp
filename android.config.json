@@ -1,6 +1,6 @@
 {
-  "AppName":"WeexApp",
+  "AppName":"拉帮结派",
   "AppId":"com.alibaba.weex",
-  "SplashText":"Hello\nWeex",
+  "SplashText":"欢迎使用拉帮结派App",
   "WeexBundle":"main.js"
 }
