@@ -24,8 +24,6 @@
   "dependencies": {
     "weex-html5": "^0.3.2",
     "weex-components":"*",
-    "better-timeago": "0.4.3",
-    "better-timeago-locale-zh-cn": "1.1.1",
     "timeago.js": "2.0.2"
   },
   "optionalDependencies":{
