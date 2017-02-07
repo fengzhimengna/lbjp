@@ -1,8 +1,11 @@
-<template>
+<template><div>
+    <scroller class="content">
     <div class="userinfo">
         <div>
-            <image class="userinfo-avatar" src="http://gtms02.alicdn.com/tps/i2/TB1qysbMpXXXXcnXXXX9t7RGVXX-46-46.png"></image>
+            <image class="userinfo-avatar" src="https://www.baidu.com/link?url=gTQsAZabg3ankYLLWFdXL82XMf2wtbUhTXdpUkmzcymEFbbw3t0zl9TGAtPawJb9404cyLRRi5-MpRu-t3Y6o4KKw547Ze7TBP8OFo8yvFcTATC6hMGhkc6SNz07vKIUDrsC_u_QCtV0hIE0hJgsoloMv4m2niZWMuk9oYhclKDR257jOX5yWlCAgTlYyALorMcyVj6X0Gtuu2H6QhnzWeEoZZB6WnmXQofrj7RFOcdaBcYz_wpdq8AbXAM882x43aONNrn7pf3ukrUymIM9A3BoL5GIECYcjlwkf5F4YbpUHFpjJRLBR763stTlREjmKxDTWyA9tDvpIYN_dyga-XQczHA70hSwnu21tKkXI9T_wVQ_-BME13O-iHBbcURDkdMYkh3jXKiwfM8c8RnuXTCJLmJeO2_HEZb16DW2N4U76-yWFkR47bjh_4pryLJpotC6qcJu1bf0z_D4Ka2O044KWiU-c0xlGmu7n0AEiD4vzEXFbYvumAj1vwAZsu9pi-aZI_SOLk2-7udVy9aPJ6Bq5u6u4BUcnmEw5MJsPlZfsq1qAlBrxmpOVqZzVtH0QklsR-WOlXfPSFX52-h7FK&timg=https%3A%2F%2Fss0.bdstatic.com%2F94oJfD_bAAcT8t7mm9GUKT-xh_%2Ftimg%3Fimage%26quality%3D100%26size%3Db4000_4000%26sec%3D1485160505%26di%3D06e141041798bb825f9564c11f4ff94d%26src%3Dhttp%3A%2F%2Ffile27.mafengwo.net%2FM00%2FB2%2F12%2FwKgB6lO0ahWAMhL8AAV1yBFJDJw20.jpeg&click_t=1485160506994&s_info=1349_666&wd=&eqid=8749f95e0000c0ac000000065885c038"></image>
         </div>
+    </div>
+        </scroller>
     </div>
 </template>
 <style>
@@ -10,6 +13,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
     }
 
     .userinfo-avatar {
@@ -17,6 +21,15 @@
         height: 128rpx;
         margin: 20rpx;
         border-radius: 50%;
+    }
+    .content {
+        color: #353535;
+        background-color: #666;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 
 </style>

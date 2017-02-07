@@ -1,0 +1,228 @@
+<template>
+    <div>
+        <nav-bar-normal></nav-bar-normal>
+        <list class="reading-list">
+            <refresh class="refresh-view" display="{{refresh_display}}" onrefresh="onrefresh">
+                <text class="refresh-arrow" if="{{(refresh_display==='hide')}}">刷新</text>
+                <loading-indicator></loading-indicator>
+            </refresh>
+            <!--<cell class="top-slider">
+                <slider class="top-slider" append="tree" auto-play="true" interval="5000" if="{{showSliderCell}}">
+                    <indicator class="indicator"></indicator>
+                    <div repeat="{{imageList}}">
+                        <image class="slider-item" src="{{cover}}" itemid="{{id}}" itemtitle="{{title}}"
+                               onclick="onSliderItemClick"></image>
+                    </div>
+                </slider>
+            </cell>-->
+            <cell class="row" repeat="{{item in imageList}}" index="{{$index}}">
+                <div class="reading-item" cid="{{item.id}}"
+                     onclick="onReadCellClick">
+                    <read-item title="{{item.title}}" author="{{item.bgcolor}}" url="{{item.cover}}"
+                               content="{{item.bottom_text}}" date="{{item.createTime}}"></read-item>
+                </div>
+
+            </cell>
+
+            <loading class="refresh-view" display="{{loading_display}}" onloading="onloading">
+                <text class="refresh-arrow"
+                      if="{{(refresh_display==='hide')}}">加载更多
+                </text>
+                <loading-indicator></loading-indicator>
+            </loading>
+        </list>
+    </div>
+</template>
+
+<style>
+    .top-slider {
+        flex-direction: row;
+        height: 360px;
+        width: 750px;
+    }
+
+    .slider-item {
+        height: 360px;
+        width: 750px;
+    }
+
+    .reading-list {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .refresh-view {
+        height: 80px;
+        width: 750px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .refresh-arrow {
+        font-size: 30px;
+        color: #45b5f0;
+    }
+
+    .row {
+        width: 750px;
+    }
+
+    .reading-item {
+        justify-content: center;
+        border-bottom-width: 1px;
+        border-bottom-color: #d4d4d4;
+        padding: 20px;
+    }
+
+    .indicator {
+        position: absolute;
+        width: 690px;
+        height: 400px;
+        top: 140px;
+        left: 240px;
+        itemColor: #dddddd;
+        itemSelectedColor: #45b5f0;
+        item-size: 15;
+    }
+
+</style>
+
+
+<script>
+    require('weex-components');
+    var modal = require('@weex-module/modal');
+    var apis = require('../common/api');
+    var navigator = require('@weex-module/navigator');
+    var timeAgo = require("timeago.js");
+
+    module.exports = {
+        data: {
+            currentIndex: 0,
+            showSliderCell: false,
+            refresh_display: 'hide',
+            loading_display: 'hide',
+            imageList: [],
+            readingList: [],
+            showListItem: false,
+            baseURL: ''
+        },
+        computed: {},
+        methods: {
+            onrefresh: function (e) {
+                var self = this;
+                self.refresh_display = 'show';
+                self.currentIndex = 0;
+                self.getCarouselData();
+                self.getReadingIndex(self.currentIndex, false);
+                self.refresh_display = 'hide';
+
+            },
+            onloading: function (e) {
+                var self = this;
+                this.loading_display = "show";
+                self.refresh_display = 'show';
+                self.getReadingIndex(++self.currentIndex, true);
+                self.loading_display = "hide";
+                self.refresh_display = 'hide';
+            },
+            getReadingIndex: function (index, loadmore) {
+                var self = this;
+                /*apis.getImageList(index, function (ret) {
+                    if (!loadmore) {
+                        self.readingList = [];
+                    }
+                    var data = ret.pageInfo.pageResults;
+                    for (var i = 0; i < data.length; i++) {
+
+                        data[i].createTime = new timeAgo().format('2017-01-11 15:00:00' ,'zh_CN');
+                        self.readingList.push(data[i]);
+                    }
+                    self.showListItem = self.readingList.length > 0;
+                });*/
+            },
+            getCarouselData: function () {
+                var self = this;
+                self.showSliderCell = false;
+                apis.getReadingCarousel(function (ret) {
+                    for (var i = 0; i < ret.data.length; i++) {
+
+                        ret.data[i].createTime = new timeAgo().format('2017-01-11 15:00:00' ,'zh_CN');
+                        self.imageList.push(ret.data[i]);
+                    }
+                    self.showSliderCell = true;
+                });
+            },
+            onSliderItemClick: function (e) {
+                var self = this;
+                var itemid = e.target.attr.itemid;
+                var title = e.target.attr.itemtitle;
+                var vm = this;
+                var params = {
+                    'url': this.baseURL + 'modules/carouse-list.js?id=' + itemid + "&title=" + title,
+                    'animated': 'true'
+                };
+                navigator.push(params, function (e) {
+                    //callback
+                });
+
+            },
+            onReadCellClick: function (e) {
+                var self = this;
+                var itemid = e.target.attr.cid;
+             //   self.openEssayDetail(itemid);
+            },
+            onSerialCellClick: function (e) {
+                var self = this;
+                var itemid = e.target.attr.cid;
+                self.openSerialDetail(itemid);
+            },
+            onQuestionCellClick: function (e) {
+                var self = this;
+                var itemid = e.target.attr.cid;
+                self.openQuestionDetail(itemid);
+            },
+            openEssayDetail: function (id) {
+                var vm = this;
+                var params = {
+                    'url': this.baseURL + 'modules/essay-detail.js?id=' + id,
+                    'animated': 'true'
+                };
+                navigator.push(params, function (e) {
+                    //callback
+                });
+            },
+            openSerialDetail: function (id) {
+                var vm = this;
+                var params = {
+                    'url': this.baseURL + 'modules/serial-detail.js?id=' + id,
+                    'animated': 'true'
+                };
+                navigator.push(params, function (e) {
+                    //callback
+                });
+            },
+            openQuestionDetail: function (id) {
+                var vm = this;
+                var params = {
+                    'url': this.baseURL + 'modules/question-detail.js?id=' + id,
+                    'animated': 'true'
+                };
+                navigator.push(params, function (e) {
+                    //callback
+                });
+            }
+        },
+        created: function () {
+            var self = this;
+            self.currentIndex = 0;
+            self.getCarouselData();
+            self.getReadingIndex(self.currentIndex, false);
+            var base = apis.getBaseUrl(self.$getConfig().bundleUrl, true);
+            this.baseURL = base;
+
+        },
+        ready: function () {
+            var self = this;
+        }
+    }
+</script>
